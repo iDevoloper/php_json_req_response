@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>PHP JSON Testing</title>
+		<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+	</head>
+	<body>
+		<div id="form">
+			<table>
+				<tr>
+					<td>Field 1</td>
+					<td><input type="text" id="text1" /></td>
+				</tr>
+				<tr>
+					<td>Field 2</td>
+					<td><input type="text" id="text2" /></td>
+				</tr>
+				<tr>
+					<td colspan="2"><button id="submit">Send Request</button></td>
+				</tr>
+			</table>
+		</div>
+		<div>
+			Response:
+			<span id="response"></span>
+		</div>
+		<script type="text/javascript">
+			
+			$(document).ready(function(){
+				$("#submit").on("click", function(event){
+					var text1 = $("#text1").val();
+					var text2 = $("#text2").val();
+					var jsonData = {
+						field1 : text1,
+						field2 : text2
+					};
+					$.ajax({
+						type: "POST",
+						url: "/eclipse_php_workspace/PHPJsonProject/processJson.php",
+						data: JSON.stringify(jsonData),
+						contentType: "application/json",
+						dataType: "json",
+						success: function(response) {
+							$("#response").html(JSON.stringify(response));
+						},
+						failure: function(error){
+							$("#response").html(error);
+						}
+					});
+					$("#text1").val("");
+					$("#text2").val("");
+				});
+			});
+		</script>
+	</body>
+</html>
